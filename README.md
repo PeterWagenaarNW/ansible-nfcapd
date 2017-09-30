@@ -1,31 +1,47 @@
-Role Name
+Role Name: nfcapd
 =========
 
-A brief description of the role goes here.
+This role sets up the nfcapd damon using nfdump package on Ubuntu or Debian.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role was tested on the following platforms.
+
+### Ansible
+- Version 2.4
+
+### Distributions
+- Ubuntu 16.04
+- Debian 9
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### Defaults
+  nfcapd_logdir: '/var/cache/nfdump'
+  * The directory stores all collected data by nfcapd.
+
+  nfcapd_port: '2055'
+  * The listener port of nfcapd
+
+  nfcapd_subdir_type: '1'
+  * The number specify the subdir type passed to the argument of '-S' option of nfcapd.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+N/A
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+    - hosts: all
+      vars:
+        - nfcapd_port: '2055'
+        - nfcapd_subdir_type: '1'
       roles:
-         - { role: username.rolename, x: 42 }
+        - yasuhiroabe.nfcapd
 
 License
 -------
