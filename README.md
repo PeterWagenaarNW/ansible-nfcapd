@@ -1,7 +1,7 @@
 Role Name: nfcapd
 =================
 
-This role sets up the nfcapd damon using nfdump package on Ubuntu or Debian.
+This role sets up the nfcapd daemon using nfdump package on Ubuntu or Debian.
 
 Requirements
 ------------
@@ -24,17 +24,18 @@ Role Variables
 
     nfcapd_logdir_perms:
       - { owner: 'root', group: 'root', mode: '0755' }
-    * The 'nfcapd_logdir' permissions
+    * The 'nfcapd_logdir' and sub-directories permission will be overwritten according to this setting.
   
     nfcapd_port: '2055'
     * The listener port of nfcapd
 
     nfcapd_subdir_type: '1'
-    * The number specify the subdir type passed to the argument of '-S' option of nfcapd.
+    * The number will be passed to the argument of nfcapd '-S' option.
 
     nfcapd_daemon_uidgid:
       - { user: 'root', group: 'root' }
-    * The nfcapd daemon running with specified user and group permissions
+    * The nfcapd daemon running with specified user and group permissions.
+	  The permission of the directory which places the pid file will be overwritten according to this setting.
 
 Dependencies
 ------------
