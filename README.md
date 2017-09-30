@@ -24,7 +24,7 @@ Role Variables
 
     nfcapd_logdir_perms:
       - { owner: 'root', group: 'root', mode: '0755' }
-    * The 'nfcapd_logdir' attributes
+    * The 'nfcapd_logdir' permissions
   
     nfcapd_port: '2055'
     * The listener port of nfcapd
