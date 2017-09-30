@@ -1,5 +1,5 @@
 Role Name: nfcapd
-=========
+=================
 
 This role sets up the nfcapd damon using nfdump package on Ubuntu or Debian.
 
@@ -31,6 +31,10 @@ Role Variables
 
     nfcapd_subdir_type: '1'
     * The number specify the subdir type passed to the argument of '-S' option of nfcapd.
+
+    nfcapd_daemon_uidgid:
+      - { user: 'root', group: 'root' }
+    * The nfcapd daemon running with specified user and group permissions
 
 Dependencies
 ------------
