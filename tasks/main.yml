@@ -21,7 +21,7 @@
   lineinfile: >
     path={{ nfcapd_systemd_filepath }}
     regexp="^ExecStart=/usr/bin/nfcapd"
-    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }}"
+    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }} -u {{ nfcapd_daemon_user }} -g {{ nfcapd_daemon_group }}"
   notify:
     - restart nfdump.service
     - restart fprobe.service

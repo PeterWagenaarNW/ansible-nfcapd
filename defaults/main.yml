@@ -1,6 +1,11 @@
 ---
 # defaults file for yasuhiroabe.nfcapd
+
 nfcapd_logdir: '/var/cache/nfdump'
     
 nfcapd_port: '2055'
+
 nfcapd_subdir_type: '1'
+
+nfcapd_daemon_user: 'root'
+nfcapd_daemon_group: 'root'
