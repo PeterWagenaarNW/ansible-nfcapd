@@ -7,5 +7,9 @@ nfcapd_port: '2055'
 
 nfcapd_subdir_type: '1'
 
-nfcapd_daemon_user: 'root'
-nfcapd_daemon_group: 'root'
+##
+nfcapd_daemon_uidgid:
+  - { user: 'root', group: 'root' }
+  
+nfcapd_logdir_perms:
+  - { owner: 'root', group: 'root', mode: '0755' }
