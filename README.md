@@ -19,14 +19,18 @@ Role Variables
 --------------
 
 ### Defaults
-  nfcapd_logdir: '/var/cache/nfdump'
-  * The directory stores all collected data by nfcapd.
+    nfcapd_logdir: '/var/cache/nfdump'
+    * The directory stores all collected data by nfcapd.
 
-  nfcapd_port: '2055'
-  * The listener port of nfcapd
+    nfcapd_logdir_perms:
+      - { owner: 'root', group: 'root', mode: '0755' }
+    * The 'nfcapd_logdir' attributes
+  
+    nfcapd_port: '2055'
+    * The listener port of nfcapd
 
-  nfcapd_subdir_type: '1'
-  * The number specify the subdir type passed to the argument of '-S' option of nfcapd.
+    nfcapd_subdir_type: '1'
+    * The number specify the subdir type passed to the argument of '-S' option of nfcapd.
 
 Dependencies
 ------------
@@ -38,6 +42,8 @@ Example Playbook
 
     - hosts: all
       vars:
+  	    - nfcapd_logdir_perms:
+          - { owner: 'root', group: 'root', mode: '0750' }
         - nfcapd_port: '2055'
         - nfcapd_subdir_type: '1'
       roles:
