@@ -1,0 +1,48 @@
+---
+- name: install essential packages for this task
+  become: True
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=1200
+  with_items:
+    - nfdump
+  register: result
+  
+- name: create target directory
+  file: >
+    path={{ nfcapd_logdir }}
+    state=directory
+    owner={{ item.owner }}
+    group={{ item.group }}
+    mode={{ item.mode }}
+  with_items:
+    - "{{ nfcapd_logdir_perms }}"
+  register: result
+  
+- name: modify nfdump.service
+  lineinfile: >
+    path={{ nfcapd_systemd_filepath }}
+    regexp="^ExecStart=/usr/bin/nfcapd"
+    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }}"
+  notify:
+    - restart nfdump.service
+    - restart fprobe.service
+  register: result
+  
+- name: modify daemon setting in /etc/default/nfdump
+  lineinfile: >
+    path={{ nfcapd_default_filepath }}
+    regexp="^nfcapd_start="
+    line="nfcapd_start=no"
+  notify:
+    - restart nfdump.service
+    - restart fprobe.service
+  register: result
+
+- name: enable nfcapd service
+  systemd:
+    name: nfdump
+    state: started
+    enabled: true
+  notify:
+    - restart nfdump.service
+    - restart fprobe.service
+  register: result

@@ -1,0 +1,14 @@
+---
+# defaults file for yasuhiroabe.nfcapd
+nfcapd_logdir: '/var/cache/nfdump'
+nfcapd_logdir_perms:
+  - { owner: 'root', group: 'root', mode: '0755' }
+    
+nfcapd_systemd_filepath: '/lib/systemd/system/nfdump.service'
+nfcapd_bin_filepath: '/usr/bin/nfcapd'
+nfcapd_pid_filepath: '/var/run/nfcapd.pid'
+nfcapd_port: '2055'
+nfcapd_subdir_type: '1'
+
+nfcapd_default_filepath: '/etc/default/nfdump'
+

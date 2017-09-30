@@ -1,0 +1,7 @@
+---
+- name: restart nfdump.service
+  systemd: state=restarted daemon_reload=yes name=nfdump
+
+- name: restart fprobe.service
+  systemd: state=restarted daemon_reload=yes name=fprobe
+  

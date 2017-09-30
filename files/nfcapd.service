@@ -1,0 +1,21 @@
+#
+# 1. place to /etc/systemd/system/nfcapd.service
+# 2. $ sudo systemctl enable nfcapd.service
+# 3. $ sudo systemctl daemon-reload
+# 4. $ sudo systemctl start nfcapd.service
+#
+
+[Unit]
+Description=nfcapd container
+Requires=fprobe.service
+Before=fprobe.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/nfcapd -l /var/cache/nfdump -P nfcapd.pid -p 2055 -S 1
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=nfcap.service
+
