@@ -6,3 +6,5 @@ nfcapd_bin_filepath: '/usr/bin/nfcapd'
 nfcapd_pid_filepath: '/var/run/nfcapd/nfcapd.pid'
 
 nfcapd_default_filepath: '/etc/default/nfdump'
+
+nfcapd_fprobe_bin_filepath: '/usr/bin/fprobe'

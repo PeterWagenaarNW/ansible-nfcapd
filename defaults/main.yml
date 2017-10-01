@@ -13,3 +13,5 @@ nfcapd_daemon_uidgid:
   
 nfcapd_logdir_perms:
   - { owner: 'root', group: 'root', mode: '0755' }
+
+nfcapd_listen_address: '127.0.0.1'

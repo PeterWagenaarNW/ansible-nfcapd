@@ -1,7 +1,24 @@
 ---
+- name: killall nfdump.service
+  shell: killall "{{ nfcapd_bin_filepath }}"
+  ignore_errors: yes
+  notify:
+    - nfdump wait until port close
+
+- name: nfdump wait until port close
+  wait_for: host="{{ nfcapd_listen_address }}" port="{{ nfcapd_port }}" delay=10 state="stopped" timeout="60"
+    
 - name: restart nfdump.service
-  systemd: state=restarted daemon_reload=yes name=nfdump
+  systemd: state=started daemon_reload=yes name=nfdump
+
+- name: killall fprobe.service
+  shell: killall "{{ nfcapd_fprobe_bin_filepath }}"
+  ignore_errors: yes
+  notify:
+    - fprobe wait until port close
+
+- name: fprobe wait until port close
+  wait_for: host="{{ nfcapd_listen_address }}" port="{{ nfcapd_port }}" delay=15 state="started" timeout="60"
 
 - name: restart fprobe.service
-  systemd: state=restarted name=fprobe
-  ignore_errors: yes
+  systemd: state=started name=fprobe

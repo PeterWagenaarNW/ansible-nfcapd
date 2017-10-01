@@ -4,6 +4,7 @@
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=1200
   with_items:
     - nfdump
+    - psmisc
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
   register: result
   
@@ -34,9 +35,11 @@
   lineinfile: >
     path={{ nfcapd_systemd_filepath }}
     regexp="^ExecStart=/usr/bin/nfcapd"
-    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }}"
+    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }}  -b {{ nfcapd_listen_address }}"
   notify:
+    - killall nfdump.service
     - restart nfdump.service
+    - killall fprobe.service
     - restart fprobe.service
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
   register: result
@@ -45,9 +48,11 @@
   lineinfile: >
     path={{ nfcapd_systemd_filepath }}
     regexp="^ExecStart=/usr/bin/nfcapd"
-    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }} -u {{ item.user }} -g {{ item.group }}"
+    line="ExecStart={{ nfcapd_bin_filepath }} -D -l {{ nfcapd_logdir }} -P {{ nfcapd_pid_filepath }} -p {{ nfcapd_port }} -S {{ nfcapd_subdir_type }} -u {{ item.user }} -g {{ item.group }} -b {{ nfcapd_listen_address }}"
   notify:
+    - killall nfdump.service
     - restart nfdump.service
+    - killall fprobe.service
     - restart fprobe.service
   when: (ansible_distribution == "Ubuntu" or ansible_distribution == "Debian") and
         (item.user != "root" and item.group != "root")
@@ -60,9 +65,6 @@
     path={{ nfcapd_default_filepath }}
     regexp="^nfcapd_start="
     line="nfcapd_start=no"
-  notify:
-    - restart nfdump.service
-    - restart fprobe.service
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
   register: result
 
@@ -71,8 +73,5 @@
     name: nfdump
     state: started
     enabled: true
-  notify:
-    - restart nfdump.service
-    - restart fprobe.service
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
   register: result
