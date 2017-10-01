@@ -45,6 +45,7 @@ Dependencies
 ------------
 
 1. This role forces to restart the nfcapd and fprobe process because nfcapd will be lost the packet from fprobe if restarted.
+   So, this role expects the *fprobe.service* has been enabled on systemd.
 
 2. This role uses the *killall* command to stop the process. 
 
