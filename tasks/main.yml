@@ -1,13 +1,16 @@
 ---
 - name: install essential packages for this task
   become: True
-  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=1200
-  with_items:
-    - nfdump
-    - psmisc
+  apt:
+    update_cache: yes
+    cache_valid_time: 1200
+    name: ["nfdump", "psmisc", "fprobe"]
+    state: latest
+  environment:
+    RUNLEVEL: 1
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
   register: result
-  
+
 - name: create target directory
   file: >
     path={{ nfcapd_logdir }}
@@ -30,7 +33,7 @@
   with_items:
     - "{{ nfcapd_daemon_uidgid }}"
   register: result
-  
+
 - name: modify nfdump.service
   lineinfile: >
     path={{ nfcapd_systemd_filepath }}
@@ -59,7 +62,7 @@
   with_items:
     - "{{ nfcapd_daemon_uidgid }}"
   register: result
-  
+
 - name: modify daemon setting in /etc/default/nfdump
   lineinfile: >
     path={{ nfcapd_default_filepath }}
