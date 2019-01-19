@@ -3,7 +3,7 @@
 
 nfcapd_systemd_filepath: '/lib/systemd/system/nfdump.service'
 nfcapd_bin_filepath: '/usr/bin/nfcapd'
-nfcapd_pid_filepath: '/var/run/nfcapd/nfcapd.pid'
+nfcapd_pid_filepath: '/var/run/nfcapd.pid'
 
 nfcapd_default_filepath: '/etc/default/nfdump'
 
